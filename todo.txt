@@ -1,5 +1,20 @@
 Render annotation list.
-Click to edit annotations.
 Zoom document.
 Compare mode.
 Barcode checker. (OCR?)
+Measuring tool.
+Print.
+Saving.
+Specify document by query string.
+Specify current user by query string.
+API.
+Different annotation types.
+Record date/time that annotations are edited.
+Record date/time that annotations are deleted.
+Record date/time that the status is set.
+
+-----
+DONE
+-----
+Click to edit annotations.
+Record date/time that annotations are added.
