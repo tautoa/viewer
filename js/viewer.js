@@ -16,13 +16,38 @@ VIEWER.currentApprover = null;  	// Reference to the current approver in the app
 	Objects
 */
 
-VIEWER.Annotation = function (text, left, top, width, height) {
+VIEWER.Annotation = function (approverId, text, left, top, width, height) {
 	"use strict";
+	this.approverId = approverId;
     this.text = text;
+    this.added = moment();
     this.left = left;
 	this.top = top;
     this.width = width;
     this.height = height;
+};
+
+VIEWER.Annotation.prototype.editAnnotation = function(event){
+	var annotation = this;
+	$("<textarea />").blur(function (event) {annotation.saveAnnotationText(event);}).val(this.text).appendTo($(event.target).parent()).focus();
+	$(event.target).remove();
+};
+
+VIEWER.Annotation.prototype.saveAnnotationText = function(event){
+	if (event.target.value) {
+		this.text = event.target.value;
+		$("<span>", {
+			"class": "annotationText",
+			"text": this.text
+		}).appendTo($(event.target).parent());
+		$(event.target).parent().click(function(event){this.editAnnotation(event);});
+		$(event.target).remove();
+	}
+	else {
+		$(event.target).parent().remove();
+	}
+	
+    VIEWER.renderAnnotationList();
 };
 
 VIEWER.Approver = function (id, name, status, annotations) {
@@ -36,7 +61,8 @@ VIEWER.Approver = function (id, name, status, annotations) {
 VIEWER.Approver.prototype.addAnnotation = function (annotation) {
 	"use strict";
 	
-	this.annotations[this.annotations.length] = annotation;
+	this.annotations.push(annotation);
+    VIEWER.renderAnnotationList();
 };
 
 VIEWER.renderApproverList = function (approversList) {
@@ -80,6 +106,19 @@ VIEWER.renderAnnotations = function (approversList) {
 	}
 };
 
+VIEWER.renderAnnotationList = function(){
+	"use strict";
+	
+	$("#annotationList").empty();
+	
+	$.map(VIEWER.approvers, function(approver){
+		$.map(approver.annotations, function(annotation){
+			$("#annotationList").append($("<div />").html(annotation.text + "<br />Added by " + approver.name + " " + annotation.added.fromNow()));
+		});
+	});
+	
+};
+
 VIEWER.setCurrentApproverStatus = function (status) {
     "use strict";
     VIEWER.currentApprover.setStatus(status);
@@ -121,7 +160,8 @@ $(document).ready(function () {
 	VIEWER.approvers.push(new VIEWER.Approver("3035", "Jon Collins", VIEWER.ApprovalStatus.PENDING, []));
     VIEWER.currentApprover = VIEWER.approvers[0];
     VIEWER.approvers.push(new VIEWER.Approver("3036", "Andrew Bohling", VIEWER.ApprovalStatus.PENDING, []));
-	var newAnnotation = new VIEWER.Annotation('Test', '25%', '5%', '26%', '10%');
+	var newAnnotation = new VIEWER.Annotation(3036, 'Test', '25%', '5%', '26%', '10%');
+	
 	VIEWER.approvers[1].addAnnotation(newAnnotation);
 	
 	VIEWER.renderAnnotations(VIEWER.approvers);
@@ -173,18 +213,18 @@ $(document).ready(function () {
     });
 
     $(".imageContainer").mouseup(function () {
-        $("<textarea />", {
-        }).blur(function () {
+        $("<textarea />").blur(function () {
             var annotationText = this.value;
             if (annotationText) {
-						
-				var newAnnotation = new VIEWER.Annotation(annotationText, $(this).parent().css("left"), $(this).parent().css("top"), $(this).parent().css("width"), $(this).parent().css("height"));
+
+				var newAnnotation = new VIEWER.Annotation(VIEWER.currentApprover.id, annotationText, $(this).parent().css("left"), $(this).parent().css("top"), $(this).parent().css("width"), $(this).parent().css("height"));
 				VIEWER.currentApprover.addAnnotation(newAnnotation);
 				
                 $("<span>", {
                     "class": "annotationText",
                     "text": this.value
                 }).appendTo($(this).parent());
+				$(this).parent().click(function(event){newAnnotation.editAnnotation(event);});
                 $(this).remove();
             } else {
                 $(this).parent().remove();
@@ -194,6 +234,8 @@ $(document).ready(function () {
 
         dragging = false;
     });
+    
+    VIEWER.renderAnnotationList();
 });
 
 var currentRotationAngle = 0;
