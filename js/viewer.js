@@ -77,9 +77,10 @@ $(document).ready(function () {
 
     $("#approversList").html(VIEWER.renderApproverList(VIEWER.approvers));
 
-    $(".imageContainer").mousedown(function (e) {
-        startX = e.offsetX;
-        startY = e.offsetY;
+    $(".imageContainer").mousedown(function (e) {		
+		var offset = $(this).offset();
+		startX = e.pageX - offset.left;
+		startY = e.pageY - offset.top;
 
         dragging = true;
 
@@ -94,8 +95,9 @@ $(document).ready(function () {
 
     $(".imageContainer").mousemove(function (e) {
         if (dragging) {
-            var endX = e.offsetX,
-                endY = e.offsetY;
+			var offset = $(this).offset();
+			var endX = e.pageX - offset.left;
+			var endY = e.pageY - offset.top;
 
             newDiv.css({
                 "left": Math.min(startX, endX),
