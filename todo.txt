@@ -9,7 +9,6 @@ Specify document by query string.
 Specify current user by query string.
 API.
 Different annotation types.
-Record date/time that annotations are added.
 Record date/time that annotations are edited.
 Record date/time that annotations are deleted.
 Record date/time that the status is set.
@@ -18,3 +17,4 @@ Record date/time that the status is set.
 DONE
 -----
 Click to edit annotations.
+Record date/time that annotations are added.

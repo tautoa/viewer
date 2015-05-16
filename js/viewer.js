@@ -20,6 +20,7 @@ VIEWER.Annotation = function (approverId, text, left, top, width, height) {
 	"use strict";
 	this.approverId = approverId;
     this.text = text;
+    this.added = moment();
     this.left = left;
 	this.top = top;
     this.width = width;
@@ -112,7 +113,7 @@ VIEWER.renderAnnotationList = function(){
 	
 	$.map(VIEWER.approvers, function(approver){
 		$.map(approver.annotations, function(annotation){
-			$("#annotationList").append($("<div />").text(annotation.text + " by " + approver.name));
+			$("#annotationList").append($("<div />").html(annotation.text + "<br />Added by " + approver.name + " " + annotation.added.fromNow()));
 		});
 	});
 	
