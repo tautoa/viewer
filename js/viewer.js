@@ -16,10 +16,11 @@ VIEWER.currentApprover = null;  	// Reference to the current approver in the app
 	Objects
 */
 
-VIEWER.Annotation = function (text, origin, width, height) {
+VIEWER.Annotation = function (text, left, top, width, height) {
 	"use strict";
     this.text = text;
-    this.origin = origin || { x: 0, y: 0};
+    this.left = left;
+	this.top = top;
     this.width = width;
     this.height = height;
 };
@@ -38,6 +39,22 @@ VIEWER.Approver.prototype.setStatus = function (status) {
     this.status = status;
 };
 
+VIEWER.Approver.prototype.addAnnotation = function (annotation) {
+	"use strict";
+	
+	this.annotations[this.annotations.length] = annotation;
+};
+
+VIEWER.toggleAnnotations = function (checked, approverId) {
+	var searchName = "[id^=div_" + approverId + "_]"; 
+	$(searchName).each(function () {
+		if(checked)
+			$(this).show();
+		else
+			$(this).hide();
+	  });
+};
+
 VIEWER.renderApproverList = function (approversList) {
     "use strict";
 
@@ -45,7 +62,8 @@ VIEWER.renderApproverList = function (approversList) {
         approversListHTML = "<table>";
 
     for (i = 0; i < approversList.length; i += 1) {
-        approversListHTML += "<tr><td>" + approversList[i].name + "</td><td>" + VIEWER.ApprovalStatus.keys[approversList[i].status] + "</td></tr>";
+        approversListHTML += "<tr><td><input type='checkbox' id=" + approversList[i].id + " onchange='VIEWER.toggleAnnotations(this.checked," + approversList[i].id + ")' checked/></td>";
+		approversListHTML += "<td>" + approversList[i].name + "</td><td>" + VIEWER.ApprovalStatus.keys[approversList[i].status] + "</td></tr>";
     }
 
     approversListHTML += "</table>";
@@ -125,6 +143,10 @@ $(document).ready(function () {
         }).blur(function () {
             var annotationText = this.value;
             if (annotationText) {
+				
+				var newAnnotation = new VIEWER.Annotation(annotationText, $(this).parent().css("left"), $(this).parent().css("top"), $(this).parent().css("width"), $(this).parent().css("height"));
+				VIEWER.currentApprover.addAnnotation(newAnnotation);
+				
                 $("<span>", {
                     "class": "annotationText",
                     "text": this.value
@@ -134,6 +156,7 @@ $(document).ready(function () {
                 $(this).parent().remove();
             }
         }).appendTo(newDiv).focus();
+		newDiv.attr('id', 'div_' + VIEWER.currentApprover.id + '_' + VIEWER.currentApprover.annotations.length);
 
         dragging = false;
     });
