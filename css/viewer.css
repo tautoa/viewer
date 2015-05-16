@@ -16,8 +16,13 @@ html, body {
 	opacity: 0.5;
 	position: absolute;
 }
+
 .annotation:hover {
     opacity: 0.7;
+}
+
+#annotations {
+	margin-top: 5%;	
 }
 
 .annotationText {
@@ -71,6 +76,6 @@ textarea  {
 	border:solid 1px black;
 	float:left;
 	height: 100%;
-}
 	width:24%;
+}
 

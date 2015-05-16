@@ -45,6 +45,8 @@ VIEWER.Annotation.prototype.saveAnnotationText = function(event){
 	else {
 		$(event.target).parent().remove();
 	}
+	
+    VIEWER.renderAnnotationList();
 };
 
 VIEWER.Approver = function (id, name, status, annotations) {
@@ -58,7 +60,8 @@ VIEWER.Approver = function (id, name, status, annotations) {
 VIEWER.Approver.prototype.addAnnotation = function (annotation) {
 	"use strict";
 	
-	this.annotations[this.annotations.length] = annotation;
+	this.annotations.push(annotation);
+    VIEWER.renderAnnotationList();
 };
 
 VIEWER.renderApproverList = function (approversList) {
@@ -100,6 +103,19 @@ VIEWER.renderAnnotations = function (approversList) {
 		
 		}
 	}
+};
+
+VIEWER.renderAnnotationList = function(){
+	"use strict";
+	
+	$("#annotationList").empty();
+	
+	$.map(VIEWER.approvers, function(approver){
+		$.map(approver.annotations, function(annotation){
+			$("#annotationList").append($("<div />").text(annotation.text + " by " + approver.name));
+		});
+	});
+	
 };
 
 VIEWER.setCurrentApproverStatus = function (status) {
@@ -206,12 +222,7 @@ $(document).ready(function () {
         dragging = false;
     });
     
-    divHeight = $(".imageContainer").height();
-    divWeight = $(".imageContainer").width();
-    
-	window.resize(function(){ 
-		$(window)
-	});
+    VIEWER.renderAnnotationList();
 });
 
 var currentRotationAngle = 0;
