@@ -109,7 +109,7 @@ $(document).ready(function () {
         if (dragging) {
 			var offset = $(this).offset();
             var endX = e.pageX - offset.left;
-                endY = e.pageY - offset.top;
+            var endY = e.pageY - offset.top;
 
             newDiv.css({
                 "left": Math.min(startX, endX),
