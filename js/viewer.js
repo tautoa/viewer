@@ -7,9 +7,10 @@ var VIEWER = VIEWER || {};
     Properties
 */
 
-VIEWER.approvers = [];          // Collection of approvers for this document.
+VIEWER.approvers = [];          	// Collection of approvers for this document.
 VIEWER.ApprovalStatus = Object.freeze(new COMMON.Enum("PENDING", "APPROVED", "REJECTED"));
-VIEWER.currentApprover = null;  // Reference to the current approver in the approvers array.
+VIEWER.createAnnotations = false;	// Indicates whether annotations will be created when the document is clicked.
+VIEWER.currentApprover = null;  	// Reference to the current approver in the approvers array.
 
 /*
 	Objects
@@ -60,9 +61,18 @@ VIEWER.setCurrentApproverStatus = function (status) {
     $("#approversList").html(VIEWER.renderApproverList(VIEWER.approvers));
 };
 
+VIEWER.toggleAnnotateTool = function(caller){
+	"use strict";
+	VIEWER.createAnnotations = !VIEWER.createAnnotations;
+	if (VIEWER.createAnnotations)
+		$(caller).addClass("active");
+	else
+		$(caller).removeClass("active");
+};
+
 $(document).ready(function () {
     "use strict";
-	debugger;
+
     var	dragging = false,
         newDiv = $("<div />", {
             "class": "annotation"
@@ -78,18 +88,20 @@ $(document).ready(function () {
     $("#approversList").html(VIEWER.renderApproverList(VIEWER.approvers));
 
     $(".imageContainer").mousedown(function (e) {
-        startX = e.offsetX;
-        startY = e.offsetY;
+    	if (VIEWER.createAnnotations){
+		    startX = e.offsetX;
+		    startY = e.offsetY;
 
-        dragging = true;
+		    dragging = true;
 
-        newDiv = newDiv.clone().css({
-            "left": startX,
-            "top": startY,
-            "width": 0,
-            "height": 0
-        }).text("");
-        newDiv.appendTo(".imageContainer");
+		    newDiv = newDiv.clone().css({
+		        "left": startX,
+		        "top": startY,
+		        "width": 0,
+		        "height": 0
+		    }).text("");
+		    newDiv.appendTo(".imageContainer");
+        }
     });
 
     $(".imageContainer").mousemove(function (e) {
