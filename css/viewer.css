@@ -1,0 +1,49 @@
+html, body {
+	height: 95%;
+	margin: 0;
+	padding: 1%;
+	width: 95%;
+}
+
+.annotation {
+	position: absolute;
+	border: solid 1px black
+}
+
+.annotationText {
+	display:block;
+	height:100%;
+	text-align: center;
+	width:100%;
+	vertical-align: middle;
+}
+
+.icon32 {
+	height: 32px;
+	width: 32px;
+}
+
+.imageContainer {
+	background-image: url(../img/Chrysanthemum.jpg);
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	float: right;
+	height: 100%;
+	width: 75%;
+
+	/* Rotation */
+	-webkit-transform: rotate(0deg);
+	-moz-transform: rotate(0deg);
+	-ms-transform: rotate(0deg);
+	-o-transform: rotate(0deg);
+	transform: rotate(0deg);
+}
+
+.sidebar {
+	border:solid 1px black;
+	float:left;
+	height: 100%;
+}
+	width:24%;
+
