@@ -121,8 +121,7 @@ $(document).ready(function () {
     });
 
     $(".imageContainer").mouseup(function () {
-        $("<input />", {
-            "type": "text"
+        $("<textarea />", {
         }).blur(function () {
             var annotationText = this.value;
             if (annotationText) {
