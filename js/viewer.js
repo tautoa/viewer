@@ -33,26 +33,10 @@ VIEWER.Approver = function (id, name, status, annotations) {
     this.annotations = annotations || [];
 };
 
-VIEWER.Approver.prototype.setStatus = function (status) {
-    "use strict";
-
-    this.status = status;
-};
-
 VIEWER.Approver.prototype.addAnnotation = function (annotation) {
 	"use strict";
 	
 	this.annotations[this.annotations.length] = annotation;
-};
-
-VIEWER.toggleAnnotations = function (checked, approverId) {
-	var searchName = "[id^=div_" + approverId + "_]"; 
-	$(searchName).each(function () {
-		if(checked)
-			$(this).show();
-		else
-			$(this).hide();
-	  });
 };
 
 VIEWER.renderApproverList = function (approversList) {
@@ -104,6 +88,12 @@ VIEWER.setCurrentApproverStatus = function (status) {
     $("#approversList").html(VIEWER.renderApproverList(VIEWER.approvers));
 };
 
+VIEWER.Approver.prototype.setStatus = function (status) {
+    "use strict";
+
+    this.status = status;
+};
+
 VIEWER.toggleAnnotateTool = function(caller){
 	"use strict";
 	VIEWER.createAnnotations = !VIEWER.createAnnotations;
@@ -111,6 +101,10 @@ VIEWER.toggleAnnotateTool = function(caller){
 		$(caller).addClass("active");
 	else
 		$(caller).removeClass("active");
+};
+
+VIEWER.toggleAnnotations = function (checked, approverId) {
+	$("[id^=div_" + approverId + "_]").toggle(checked);
 };
 
 $(document).ready(function () {
