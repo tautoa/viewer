@@ -55,6 +55,31 @@ VIEWER.renderApproverList = function (approversList) {
     return approversListHTML;
 };
 
+VIEWER.renderAnnotations = function (approversList) {
+	"use strict";
+	var i = 0;
+	var x = 0;
+	var annotationDiv = $("<div />", {
+            "class": "annotation"
+        });
+	for (i = 0; i < approversList.length; i += 1) {
+		for (x = 0; x < approversList[i].annotations.length; x += 1){
+			annotationDiv = annotationDiv.clone().css({
+		        "left": approversList[i].annotations[x].left,
+		        "top": approversList[i].annotations[x].top,
+		        "width": approversList[i].annotations[x].width,
+		        "height": approversList[i].annotations[x].height
+		    }).attr('id', 'div_' + approversList[i].id + '_' + x);
+		    annotationDiv.appendTo(".imageContainer");
+			$("<span>", {
+                    "class": "annotationText",
+                    "text": approversList[i].annotations[x].text
+                }).appendTo(annotationDiv);
+		
+		}
+	}
+};
+
 VIEWER.setCurrentApproverStatus = function (status) {
     "use strict";
     VIEWER.currentApprover.setStatus(status);
@@ -96,6 +121,10 @@ $(document).ready(function () {
 	VIEWER.approvers.push(new VIEWER.Approver("3035", "Jon Collins", VIEWER.ApprovalStatus.PENDING, []));
     VIEWER.currentApprover = VIEWER.approvers[0];
     VIEWER.approvers.push(new VIEWER.Approver("3036", "Andrew Bohling", VIEWER.ApprovalStatus.PENDING, []));
+	var newAnnotation = new VIEWER.Annotation('Test', '388.8px', '209.8px', '260px', '115px');
+	VIEWER.approvers[1].addAnnotation(newAnnotation);
+	
+	VIEWER.renderAnnotations(VIEWER.approvers);
 
     $("#approversList").html(VIEWER.renderApproverList(VIEWER.approvers));
 
