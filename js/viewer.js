@@ -12,11 +12,11 @@ VIEWER.ApprovalStatus = Object.freeze(new COMMON.Enum("PENDING", "APPROVED", "RE
 VIEWER.currentApprover = null;  // Reference to the current approver in the approvers array.
 
 /*
-    Objects
+	Objects
 */
 
 VIEWER.Annotation = function (text, origin, width, height) {
-    "use strict";
+	"use strict";
     this.text = text;
     this.origin = origin || { x: 0, y: 0};
     this.width = width;
@@ -62,9 +62,8 @@ VIEWER.setCurrentApproverStatus = function (status) {
 
 $(document).ready(function () {
     "use strict";
-
-    var currentApproverIndex,
-        dragging = false,
+	debugger;
+    var	dragging = false,
         newDiv = $("<div />", {
             "class": "annotation"
         }),
@@ -72,8 +71,8 @@ $(document).ready(function () {
         startY;
 
     // Add test data.
-    currentApproverIndex = VIEWER.approvers.push(new VIEWER.Approver("3035", "Jon Collins", VIEWER.ApprovalStatus.PENDING, []));
-    VIEWER.currentApprover = VIEWER.approvers[currentApproverIndex];
+	VIEWER.approvers.push(new VIEWER.Approver("3035", "Jon Collins", VIEWER.ApprovalStatus.PENDING, []));
+    VIEWER.currentApprover = VIEWER.approvers[0];
     VIEWER.approvers.push(new VIEWER.Approver("3036", "Andrew Bohling", VIEWER.ApprovalStatus.PENDING, []));
 
     $("#approversList").html(VIEWER.renderApproverList(VIEWER.approvers));
