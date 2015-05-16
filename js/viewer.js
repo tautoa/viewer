@@ -89,8 +89,9 @@ $(document).ready(function () {
 
     $(".imageContainer").mousedown(function (e) {
     	if (VIEWER.createAnnotations){
-		    startX = e.offsetX;
-		    startY = e.offsetY;
+			var offset = $(this).offset();
+			startX = e.pageX - offset.left;
+			startY = e.pageY - offset.top;
 
 		    dragging = true;
 
@@ -106,8 +107,9 @@ $(document).ready(function () {
 
     $(".imageContainer").mousemove(function (e) {
         if (dragging) {
-            var endX = e.offsetX,
-                endY = e.offsetY;
+			var offset = $(this).offset();
+            var endX = e.pageX - offset.left;
+                endY = e.pageY - offset.top;
 
             newDiv.css({
                 "left": Math.min(startX, endX),
