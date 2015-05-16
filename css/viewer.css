@@ -10,12 +10,14 @@ html, body {
 }
 
 .annotation {
-	position: absolute;
+	background-color: white;
 	border: 2px solid black;
-    border-radius: 10px;
+	border-radius: 10px;
+	opacity: 0.5;
+	position: absolute;
 }
 .annotation:hover {
-    border-color: #EEE;
+    opacity: 0.7;
 }
 
 .annotationText {
