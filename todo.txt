@@ -1,0 +1,5 @@
+Render annotation list.
+Click to edit annotations.
+Zoom document.
+Compare mode.
+Barcode checker. (OCR?)
