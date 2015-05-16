@@ -121,7 +121,7 @@ $(document).ready(function () {
 	VIEWER.approvers.push(new VIEWER.Approver("3035", "Jon Collins", VIEWER.ApprovalStatus.PENDING, []));
     VIEWER.currentApprover = VIEWER.approvers[0];
     VIEWER.approvers.push(new VIEWER.Approver("3036", "Andrew Bohling", VIEWER.ApprovalStatus.PENDING, []));
-	var newAnnotation = new VIEWER.Annotation('Test', '388.8px', '209.8px', '260px', '115px');
+	var newAnnotation = new VIEWER.Annotation('Test', '25%', '5%', '26%', '10%');
 	VIEWER.approvers[1].addAnnotation(newAnnotation);
 	
 	VIEWER.renderAnnotations(VIEWER.approvers);
@@ -151,12 +151,23 @@ $(document).ready(function () {
 			var offset = $(this).offset();
             var endX = e.pageX - offset.left;
             var endY = e.pageY - offset.top;
-
+			
+			var containerHeight = $('.imageContainer').height();
+				var containerWidth = $('.imageContainer').width();
+				var LeftX = parseInt(Math.min(startX, endX));
+				var LeftY = parseInt(Math.min(startY, endY));
+				var RightX = parseInt(Math.abs(endX - startX));
+				var RightY = parseInt(Math.abs(endY - startY));
+				var LXpercent = 100*LeftX/containerWidth;
+				var LYpercent = 100*LeftY/containerHeight;
+				var RXpercent = 100*RightX/containerWidth;
+				var RYpercent = 100*RightY/containerHeight;
+			
             newDiv.css({
-                "left": Math.min(startX, endX),
-                "top": Math.min(startY, endY),
-                "width": Math.abs(endX - startX),
-                "height": Math.abs(endY - startY)
+                "left": LXpercent + "%",
+                "top": LYpercent + "%",
+                "width": RXpercent + "%",
+                "height": RYpercent + "%"
             });
         }
     });
@@ -166,7 +177,7 @@ $(document).ready(function () {
         }).blur(function () {
             var annotationText = this.value;
             if (annotationText) {
-				
+						
 				var newAnnotation = new VIEWER.Annotation(annotationText, $(this).parent().css("left"), $(this).parent().css("top"), $(this).parent().css("width"), $(this).parent().css("height"));
 				VIEWER.currentApprover.addAnnotation(newAnnotation);
 				
