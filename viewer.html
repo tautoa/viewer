@@ -2,21 +2,16 @@
 <html>
 
 <head>
-
 	<link rel="stylesheet" href="css/viewer.css" />
-
 </head>
 
 <body>
 	<div class="sidebar">
 		<img class="icon32" onclick="rotateElement('imageContainer', -90);" src="img/Gnome-Object-Rotate-Left-32.png" />
 		<img class="icon32" onclick="rotateElement('imageContainer', 90);" src="img/Gnome-Object-Rotate-Right-32.png" />
-
 		<img class="icon32" onclick="VIEWER.setCurrentApproverStatus(1);" src="img/Gnome-Emblem-Default-32.png" />
 		<img class="icon32" onclick="VIEWER.setCurrentApproverStatus(2);" src="img/Gnome-Process-Stop-32.png" />
-		
 		<img class="icon32" onclick="VIEWER.toggleAnnotateTool(this);" src="img/format-text-italic.png" />
-
 		<div id="approvers" style="width:100%;">
 			Approvers
 			<div id="approversList"></div>
@@ -27,14 +22,14 @@
 		</div>
 	</div>
 	<div class="imageContainer">
-		<!--<img class="viewerImage" src="img/Chrysanthemum_T.jpg" />-->
+		<img class="viewerImage" src="img/orange.jpg" />
 	</div>
-
 	<script type="text/javascript" src="js/vendor/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="js/vendor/moment.min.js"></script>
 	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="js/annotation.js"></script>
+	<script type="text/javascript" src="js/approver.js"></script>
 	<script type="text/javascript" src="js/viewer.js"></script>
-	
 </body>
 
 </html>

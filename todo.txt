@@ -1,4 +1,3 @@
-Render annotation list.
 Zoom document.
 Compare mode.
 Barcode checker. (OCR?)
@@ -12,9 +11,20 @@ Different annotation types.
 Record date/time that annotations are edited.
 Record date/time that annotations are deleted.
 Record date/time that the status is set.
+When hovering over an annotation in the list, highlight the annotation on the document.
+Show/hide annotations in the list, depending on the approver checkboxes.
+Deleting annotations.
+Poll for new annotions.
+Reset status.
+Specify approvers as read-only.
+Details panel.
+Colour picker.
+Internationalization - translations and dates.
+
 
 -----
 DONE
 -----
 Click to edit annotations.
 Record date/time that annotations are added.
+Render annotation list.
